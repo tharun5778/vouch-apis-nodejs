@@ -97,6 +97,7 @@ app.get('/auth_verify/:oauth_token/:oauth_verifier', (req, res) => {
 
 })
 app.get("/error", (req, res) => {
+        console.log("error", sssssss)
         throw Error('error in code');
 
     })
