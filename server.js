@@ -97,7 +97,7 @@ app.get('/auth_verify/:oauth_token/:oauth_verifier', (req, res) => {
 
 })
 app.get("/error", (req, res) => {
-        throw ("hi")
+        throw Error('error in code');
 
     })
     // app.get('/home/:oauth_token_secret/:oauth_token', async (req, res) => {
