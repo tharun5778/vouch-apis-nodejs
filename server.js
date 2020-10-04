@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-throw ("hi")
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "*"); //
@@ -70,31 +69,35 @@ app.get('/auth', (req, res) => {
 
 //Verify the login from twitter
 app.get('/auth_verify/:oauth_token/:oauth_verifier', (req, res) => {
-        let body = req.params
-        console.log("oauth_token", body.oauth_token, "oauth_verifier", body.oauth_verifier)
-        var config = {
-            method: 'get',
-            url: "https://api.twitter.com/oauth/access_token?oauth_token=" + body.oauth_token + "&oauth_verifier=" + body.oauth_verifier,
-        };
-        axios(config)
-            .then((response) => {
-                console.log("RESPONSE", response)
-                var data = response.data
-                var values = data.split('&')
-                var dataobject = {
-                    oauth_token: values[0].split("=")[1],
-                    oauth_token_secret: values[1].split("=")[1],
-                    user_id: values[2].split("=")[1],
-                    screen_name: values[3].split("=")[1]
-                }
-                res.send({ error: false, tweets: dataobject })
+    let body = req.params
+    console.log("oauth_token", body.oauth_token, "oauth_verifier", body.oauth_verifier)
+    var config = {
+        method: 'get',
+        url: "https://api.twitter.com/oauth/access_token?oauth_token=" + body.oauth_token + "&oauth_verifier=" + body.oauth_verifier,
+    };
+    axios(config)
+        .then((response) => {
+            console.log("RESPONSE", response)
+            var data = response.data
+            var values = data.split('&')
+            var dataobject = {
+                oauth_token: values[0].split("=")[1],
+                oauth_token_secret: values[1].split("=")[1],
+                user_id: values[2].split("=")[1],
+                screen_name: values[3].split("=")[1]
+            }
+            res.send({ error: false, tweets: dataobject })
+        })
+        .catch((error) => {
+            res.send({
+                error: true,
+                message: "internal server error"
             })
-            .catch((error) => {
-                res.send({
-                    error: true,
-                    message: "internal server error"
-                })
-            });
+        });
+
+})
+app.get("/error", (req, res) => {
+        throw ("hi")
 
     })
     // app.get('/home/:oauth_token_secret/:oauth_token', async (req, res) => {
