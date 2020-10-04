@@ -1,6 +1,10 @@
 # vouch-apis-nodejs
 
-A nice project with a nice description
+Twitter apis integration with NodeJS
+implemented following:
+1. Request token from twitter Api
+2. Authenticate using twitter api
+3. Tweets of logged in User
 
 ---
 ## Requirements
